@@ -1,0 +1,74 @@
+﻿@model IEnumerable<APIEMAIL.Models.Pessoa>
+
+@{
+    ViewData["Title"] = "Gerenciamento";
+}
+
+<h1>Lista de Pessoas</h1>
+
+<p>
+    <a asp-action="Create">Criar novo usuário</a>
+</p>
+
+<form method="post" asp-action="EnviarSelecionados">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="checkAll" /> Todos
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Funcao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Salario)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataNascimento)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="idsSelecionados" value="@item.Id" class="checkbox-item" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Funcao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Salario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataNascimento)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Enviar para o Email</button>
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById("checkAll").addEventListener("change", function () {
+            var checkboxes = document.querySelectorAll(".checkbox-item");
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+    </script>
+}
