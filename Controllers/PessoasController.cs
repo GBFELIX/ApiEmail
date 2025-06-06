@@ -62,7 +62,9 @@ namespace APIEMAIL.Controllers
 
             return File(fileContent, "text/csv", fileName);
         }
-
+        //[HttpPost]
+        //public IActionResult EnviarEmail(int[] idsSelecionados)
+        //{ }
         public IActionResult Create()
         {
             return View();
