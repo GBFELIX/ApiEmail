@@ -6,6 +6,12 @@
 
 <h1>Lista de Pessoas</h1>
 
+@if (TempData["Erro"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Erro"]
+    </div>
+}
 
 <div class="d-flex justify-content-between mb-3">
     <a class="btn btn-success" asp-action="Create">Criar novo usuário</a>
@@ -36,9 +42,9 @@
                     <td>@Html.DisplayFor(modelItem => item.Salario)</td>
                     <td>@Html.DisplayFor(modelItem => item.DataNascimento)</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
                     </td>
                 </tr>
             }
@@ -50,7 +56,7 @@
 
 <div class="modal fade" id="modalEmail" tabindex="-1" aria-labelledby="modalEmailLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <form method="post" asp-action="EnviarEmail" class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Confirmar envio por email</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -60,12 +66,18 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" asp-action="EnviarEmail">Sim, enviar</button>
+                <button type="submit" class="btn btn-primary">Sim, enviar</button>
             </div>
-        </div>
+            @if (TempData["Erro"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["Erro"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        </form>
     </div>
 </div>
-
 <div class="modal fade" id="modalExcel" tabindex="-1" aria-labelledby="modalExcelLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form method="post" asp-action="GerarExcel" id="formExcel" class="modal-content">
@@ -83,7 +95,6 @@
         </form>
     </div>
 </div>
-
 @section Scripts {
     <script asp-src="~/js/site.js"></script>
 }

@@ -62,11 +62,30 @@ namespace APIEMAIL.Controllers
 
             return File(fileContent, "text/csv", fileName);
         }
-        //[HttpPost]
-        //public IActionResult EnviarEmail(int[] idsSelecionados)
-        //{ }
-        public IActionResult Create()
+        [HttpPost]
+        public IActionResult EnviarEmail(int[] idsSelecionados)
         {
+        
+            var pessoasSelecionadas = _context.Pessoas
+                .Where(p => idsSelecionados.Contains(p.Id))
+                .ToList();
+                                          
+            var sb = new StringBuilder();
+            sb.AppendLine("Nome;Função;Salário;Data de Nascimento");
+
+            foreach (var pessoa in pessoasSelecionadas)
+            {
+                sb.AppendLine($"{pessoa.Nome};{pessoa.Funcao};{pessoa.Salario};{pessoa.DataNascimento:dd/MM/yyyy}");
+            }
+
+            var conteudoSimulado = sb.ToString();
+
+            TempData["Erro"] = "Erro ao conectar à API de e-mail. Envio não realizado.";
+
+            return RedirectToAction("Index");
+        }
+        public IActionResult Create()
+        {                         
             return View();
         }
 
