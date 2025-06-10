@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using APIEMAIL.Data;
 using APIEMAIL.Models;
+using System.Net.Mail;
+using System.Net;
 
 
 namespace APIEMAIL.Controllers
@@ -63,25 +65,46 @@ namespace APIEMAIL.Controllers
             return File(fileContent, "text/csv", fileName);
         }
         [HttpPost]
-        public IActionResult EnviarEmail(int[] idsSelecionados)
+        public async Task<IActionResult> EnviarEmailAsync(int[] idsSelecionados)
         {
-        
-            var pessoasSelecionadas = _context.Pessoas
-                .Where(p => idsSelecionados.Contains(p.Id))
-                .ToList();
-                                          
-            var sb = new StringBuilder();
-            sb.AppendLine("Nome;Função;Salário;Data de Nascimento");
-
-            foreach (var pessoa in pessoasSelecionadas)
+            var pessoas = _context.Pessoas.Where(p => idsSelecionados.Contains(p.Id)).ToList();
+            
+            var corpo = "Lista de pessoas selecionadas:\n\n";
+            foreach (var pessoa in pessoas)
             {
-                sb.AppendLine($"{pessoa.Nome};{pessoa.Funcao};{pessoa.Salario};{pessoa.DataNascimento:dd/MM/yyyy}");
+                corpo += $"Nome: {pessoa.Nome}, Função: {pessoa.Funcao}, Salário: {pessoa.Salario}\n";
             }
 
-            var conteudoSimulado = sb.ToString();
+            var mensagem = new MailMessage();
 
-            TempData["Erro"] = "Erro ao conectar à API de e-mail. Envio não realizado.";
+            //Try para simular erro devido a falta de configuração de email
+            try
+            {
+                mensagem.From = new MailAddress("quem vai enviar");
+                mensagem.To.Add("email destino");
+                mensagem.Subject = "Pessoas selecionadas";
+                mensagem.Body = corpo;
 
+                using (var smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential("email", "senha");
+                    smtp.EnableSsl = true;
+                    try
+                    {
+                        await smtp.SendMailAsync(mensagem);
+                        TempData["Mensagem"] = "Email enviado com sucesso!";
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["Erro"] = "Erro ao enviar email";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Erro"] = "Erro ao enviar email";
+            }
+            
             return RedirectToAction("Index");
         }
         public IActionResult Create()
