@@ -107,6 +107,27 @@ namespace APIEMAIL.Controllers
             
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> Pesquisar(string pesquisa)
+        {
+            var pessoas = from p in _context.Pessoas
+                          select p;
+            if (!string.IsNullOrEmpty(pesquisa))
+            {
+                pessoas = pessoas.Where(p => p.Nome.Contains(pesquisa) || p.Funcao.Contains(pesquisa));
+            }
+            return View("Index", pessoas.ToList());
+
+
+
+
+
+
+
+
+
+
+
+        }
         public IActionResult Create()
         {                         
             return View();

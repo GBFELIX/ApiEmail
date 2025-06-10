@@ -19,6 +19,14 @@
     <button type="button" class="btn btn-secondary" onclick="abrirModalExcel()">Exportar para Excel</button>
 </div>
 
+<div class="mb-3">
+	<form method="get" asp-action="Pesquisar">
+		<div class="input-group">
+			<input type="text" name="pesquisa" class="form-control" placeholder="Pesquisar por nome ou função" value="@ViewData["CurrentFilter"]" />
+			<button type="submit" class="btn btn-primary">Pesquisar</button>
+		</div>
+	</form>
+
 
 <form id="formPrincipal" method="post" asp-action="EnviarSelecionados">
     <table class="table">
