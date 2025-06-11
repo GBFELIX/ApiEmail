@@ -104,7 +104,7 @@ namespace APIEMAIL.Controllers
             {
                 TempData["Erro"] = "Erro ao enviar email";
             }
-            
+             
             return RedirectToAction("Index");
         }
         public async Task<IActionResult> Pesquisar(string pesquisa)
@@ -115,17 +115,8 @@ namespace APIEMAIL.Controllers
             {
                 pessoas = pessoas.Where(p => p.Nome.Contains(pesquisa) || p.Funcao.Contains(pesquisa));
             }
+            ViewData["filtro"] = Pesquisar;
             return View("Index", pessoas.ToList());
-
-
-
-
-
-
-
-
-
-
 
         }
         public IActionResult Create()

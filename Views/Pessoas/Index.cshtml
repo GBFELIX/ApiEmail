@@ -19,13 +19,13 @@
     <button type="button" class="btn btn-secondary" onclick="abrirModalExcel()">Exportar para Excel</button>
 </div>
 
-<div class="mb-3">
-	<form method="get" asp-action="Pesquisar">
-		<div class="input-group">
-			<input type="text" name="pesquisa" class="form-control" placeholder="Pesquisar por nome ou função" value="@ViewData["CurrentFilter"]" />
-			<button type="submit" class="btn btn-primary">Pesquisar</button>
-		</div>
-	</form>
+<button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#modalPesquisa">
+    Pesquisar
+</button>
+@if (!string.IsNullOrEmpty(ViewData["filtro"]?.ToString()))
+{
+    <a href="@Url.Action("Index", "Pessoas")" class="btn btn-outline-secondary">Limpar</a>
+}
 
 
 <form id="formPrincipal" method="post" asp-action="EnviarSelecionados">
@@ -99,6 +99,26 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-success" asp-action="EnviarSelecionados">Sim, exportar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="modalPesquisa" tabindex="-1" aria-labelledby="modalPesquisaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="get" asp-action="Pesquisar" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPesquisaLabel">Pesquisar Pessoa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <input type="text" name="pesquisa" class="form-control" placeholder="Nome ou Função" value="@ViewData["CurrentFilter"]" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Pesquisar</button>
+                <a href="@Url.Action("Index", "Pessoas")" class="btn btn-outline-secondary">Limpar</a>
             </div>
         </form>
     </div>
