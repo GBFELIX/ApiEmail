@@ -10,15 +10,16 @@ using APIEMAIL.Data;
 using APIEMAIL.Models;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace APIEMAIL.Controllers
 {
     public class PessoasController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly AplicationDbContext _context;
 
-        public PessoasController(AppDbContext context)
+        public PessoasController(AplicationDbContext context)
         {
             _context = context;
         }
@@ -28,6 +29,7 @@ namespace APIEMAIL.Controllers
             return View(await _context.Pessoas.ToListAsync());
         }
 
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
