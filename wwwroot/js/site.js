@@ -37,3 +37,28 @@ function abrirModalExcel() {
     document.getElementById("quantidadeExcel").textContent = total;
     new bootstrap.Modal(document.getElementById("modalExcel")).show();
 }
+function abrirCriar() {
+    fetch('/JAX/Adicionar')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('formCriar').innerHTML = html;
+            new bootstrap.Modal(document.getElementById('modalCriar')).show();
+        });
+}
+function salvarCriar() {
+    const form = document.getElementById('formCriar');
+    const formData = new FormData(form);
+
+    fetch('/JAX/Adicionar', {
+        method: 'POST',
+        body: formData
+    })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); // Ou recarregue apenas a tabela com AJAX
+            } else {
+                alert("Erro ao criar");
+            }
+        });
+}

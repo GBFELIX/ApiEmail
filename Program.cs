@@ -54,6 +54,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Pessoas}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=JAX}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 
