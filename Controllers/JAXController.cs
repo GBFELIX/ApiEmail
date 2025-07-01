@@ -17,7 +17,27 @@ namespace APIEMAIL.Controllers
         {
             _context = context;
         }
+        [HttpGet]
+        public IActionResult Excluir(int id)
+        {
+            var pessoa = _context.Pessoas.Find(id);
+            if (pessoa == null)
+            {
+                return NotFound();
+            }
+            return PartialView("Excluir", pessoa);
+        }
+        [HttpPost]
+        public IActionResult ExcluirPessoa(int id)
+        {
+            var pessoa = _context.Pessoas.Find(id);
+            if (pessoa == null) return NotFound();
 
+            _context.Pessoas.Remove(pessoa);
+            _context.SaveChanges();
+
+            return Json(new { success = true, message = "Excluído com sucesso!" });
+        }
         [HttpGet]
         public IActionResult Adicionar()
         {
@@ -35,7 +55,28 @@ namespace APIEMAIL.Controllers
             }
             return PartialView("Adicionar", pessoa);
         }
-
+        [HttpGet]
+        public IActionResult Editar(int id)
+        {
+            var pessoa = _context.Pessoas.Find(id);
+            if (pessoa == null)
+            {
+                return NotFound();
+            }
+            return PartialView("Editar", pessoa);
+        }
+        [HttpPost]
+        public IActionResult Editar(Pessoa pessoa)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Pessoas.Update(pessoa);
+                _context.SaveChanges();
+                return Json(new { success = true, message = "Pessoa editada com sucesso!" });
+            }
+            return PartialView("Editar", pessoa);
+        }
+        
         // Exemplo de Index
         public IActionResult Index()
         {

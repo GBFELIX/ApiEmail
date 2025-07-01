@@ -72,10 +72,10 @@
                     <td>@Html.DisplayFor(modelItem => item.Salario)</td>
                     <td>@Html.DisplayFor(modelItem => item.DataNascimento)</td>
                     <td>
-                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                        <a href="#" class="btn btn-info" onclick="abrirEditar(@item.Id)">Editar</a>
                         <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
-                    </td>
+                        <a href="#" class="btn btn-danger" onclick="Excluir(@item.Id)">Deletar</a>
+                    </td> 
                 </tr>
             }
         </tbody>
@@ -84,6 +84,52 @@
     <button type="button" class="btn btn-primary" onclick="abrirModalEmail()">Enviar para o Email</button>
 </form>
 
+    <div class="modal fade" id="modalCriar" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+        <form id="formCriar" class="modal-content">
+            
+        </form>
+        </div>
+    </div>
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="formEditar" class="modal-content">
+
+        </form>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="modalDetalhes" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="formDetalhes" class="modal-content">
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="formExcluir" class="modal-content">
+
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="modalExcel" tabindex="-1" aria-labelledby="modalExcelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" asp-action="GerarExcel" id="formExcel" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Exportar para Excel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Você selecionou <span id="quantidadeExcel"></span> pessoa(s). Deseja gerar o Excel?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success" asp-action="EnviarSelecionados">Sim, exportar</button>
+            </div>
+        </form>
+    </div>
+</div>
 @* <div class="modal fade" id="modalEmail" tabindex="-1" aria-labelledby="modalEmailLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form method="post" asp-action="EnviarEmail" class="modal-content">
@@ -146,31 +192,6 @@
         </form>
     </div>
  *@
-    <div class="modal fade" id="modalCriar" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-        <form id="formCriar" class="modal-content">
-            
-        </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="modalExcel" tabindex="-1" aria-labelledby="modalExcelLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <form method="post" asp-action="GerarExcel" id="formExcel" class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Exportar para Excel</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                Você selecionou <span id="quantidadeExcel"></span> pessoa(s). Deseja gerar o Excel?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-success" asp-action="EnviarSelecionados">Sim, exportar</button>
-            </div>
-        </form>
-    </div>
-</div>
 @section Scripts {
     <script asp-src="~/js/site.js"></script>
 }
