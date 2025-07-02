@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace APIEMAIL.Views.JAX
 {
-    public class ExcluirModel : PageModel
+    public class ExcluirVariosModel : PageModel
     {
         public void OnGet()
         {

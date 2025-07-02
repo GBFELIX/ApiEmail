@@ -1,20 +1,18 @@
-﻿
-@model APIEMAIL.Models.Pessoa
+﻿@model APIEMAIL.Models.Pessoa
 
 
 <div class="modal-header">
-    <h5 class="modal-title">Excluir Pessoa</h5>
+    <h5 class="modal-title">Excluir Pessoas</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 </div>
 <div class="modal-body">
     <input type="hidden" asp-for="Id" />
     <div class="mb-4">
-        <label>Deseja Excluir o colaborador(a)?</label>
-        <input asp-for="Nome" class="form-control" />
+        <label>Deseja mesmo excluir os colaboradores?</label>
     </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-    <button type="button" class="btn btn-primary" onclick="ExcluirPessoa(@Model.Id)">Excluir</button>
+    <button type="button" class="btn btn-primary" onclick="ConfirmarExcluirVarios()">Excluir</button>
 </div>
 

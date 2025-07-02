@@ -109,3 +109,43 @@ function ExcluirPessoa(id) {
                 }
             });
 } 
+
+let idsParaExcluir = []; 
+
+function ExcluirVarios() {
+    const selecionados = document.querySelectorAll(".checkbox-item:checked");
+
+    if (selecionados.length === 0) {
+        alert("Selecione ao menos uma pessoa.");
+        return;
+    }
+
+   
+    idsParaExcluir = Array.from(selecionados).map(cb => cb.value);
+
+   
+    fetch(`/JAX/ExcluirVariosConfirmacao?quantidade=${idsParaExcluir.length}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('formExcluirVarios').innerHTML = html;
+            new bootstrap.Modal(document.getElementById('modalExcluirVarios')).show();
+        });
+}
+
+function ConfirmarExcluirVarios() {
+    fetch('/JAX/ExcluirVarios', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(idsParaExcluir)
+    })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert("Erro ao excluir");
+            }
+        });
+}
